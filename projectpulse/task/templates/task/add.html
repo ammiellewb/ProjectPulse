@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<header class="py-6 text-center bg-green-700 text-white">
+    <h1 class="text-3xl">Add Task</h1>
+</header>
+
+<div class="flex justify-center mt-8">
+    <a href="{% url 'todolist:todolist' project.id todolist.id %}" class="py-4 px-8 bg-green-500 text-white rounded-xl inline-block">All Tasks</a>
+</div>
+
+<form class="py-6 px-8 space-y-4 text-center" method="post" action=".">
+    {% csrf_token %}
+    <div class="space-y-4">
+        <label for="" class="text-black">Name</label><br>
+        <input name="name" type="text" class="w-full py-4 px-6 rounded-xl text-black outline outline-green-900">
+    </div>
+    <div class="space-y-4">
+        <label for="" class="text-black">Description</label><br>
+        <textarea name="description" type="email" class="w-full py-4 px-6 rounded-xl outline text-black outline-green-900"></textarea>
+    </div>
+    <div class="flex justify-center mt-8">
+        <button class="py-4 px-8 rounded-xl bg-green-900 text-white inline-block">Submit</button>
+    </div>
+</form>
+{% endblock %}

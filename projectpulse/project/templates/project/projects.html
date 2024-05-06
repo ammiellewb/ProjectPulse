@@ -1,0 +1,29 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<header class="py-6 text-center bg-green-700 text-white">
+    <h1 class="text-3xl">Projects</h1>
+</header>
+
+<div class="flex justify-center mt-8">
+    <a href="{% url 'project:add' %}" class="py-4 px-8 bg-green-900 text-white rounded-xl inline-block">Add Project</a>
+</div>
+
+<div class="mt-6 grid grid-cols-4 gap-4">
+    {% for project in projects %}
+    <a href="{% url 'project:project' project.id %}">
+        <div class="outline outline-green-800 py-6 px-6">
+        
+            <h2 class="mb-4 text-xl">{{ project.name }}</h2>
+            {% if project.description %}
+            <p class="text-sm text-black">
+                {{ project.description }}
+            </p>
+            {% endif %}
+        
+        </div>
+    </a>
+    {% endfor %}
+    
+</div>
+{% endblock %}

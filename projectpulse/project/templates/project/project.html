@@ -1,0 +1,77 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<header class="py-6 text-center bg-green-700 text-white">
+    <h1 class="text-3xl">{{ project.name }}</h1>
+</header>
+
+{% if project.description %}
+<div class="mt-1 outline outline-green-900">
+    <p class="py-6 px-8">{{ project.description }}</p>
+</div>
+{% endif %}
+
+<div class="flex justify-center mt-8 mb-8 space-x-4">
+    <a href="/projects/" class="py-4 px-8 bg-green-500 text-white rounded-xl inline-block">All Projects</a>
+    <a href="{% url 'project:edit' project.id %}" class="py-4 px-8 bg-green-900 text-white rounded-xl">Edit</a>
+    <a href="{% url 'project:delete' project.id %}" class="py-4 px-8 bg-green-900 text-white rounded-xl">Delete</a>
+</div>
+
+<h2 id="lists" class="mt-6 text-2xl">To-Do Lists</h2>
+
+<div class="flex justify-center mt-8 mb-8 space-x-4">
+    <a href="{% url 'todolist:add' project.id %}" class="py-4 px-8 bg-green-900 text-white rounded-xl">Add To-Do List</a>
+</div>
+
+<div class="mt-6 grid grid-cols-4 gap-4">
+    {% for todolist in project.todolists.all %}
+    <a href="{% url 'todolist:todolist' project.id todolist.id %}">
+    <div class="outline outline-green-800 py-6 px-6">
+        
+            <h3 class="mb-4 text-xl">{{ todolist.name }}</h3>
+            {% if todolist.description %}
+            <p class="text-sm text-black">
+                {{ todolist.description }}
+            </p>
+            {% endif %}
+    </div>
+</a>
+    {% endfor %}
+</div>
+    <br>
+    <h2 id="files" class="mt-6 text-2xl">Files</h2>
+    <div class="flex justify-center mt-8 mb-8 space-x-4">
+        <a href="{% url 'project:upload_file' project.id %}" class="py-4 px-8 bg-green-900 text-white rounded-xl">Upload File</a>
+    </div>
+    <div class="mt-6 grid grid-cols-4 gap-4">
+        {% for project_file in project.files.all %}
+        <div class="outline outline-green-800 py-6 px-6">
+            <h3 class="mb-4 text-xl">{{ project_file.name }}</h3>
+            <a href="{{ project_file.attachment.url }}" target="_blank" class="underline text-sm text-black">
+                Download File</a> |
+            <a href="{% url 'project:delete_file' project.id project_file.id %}" class="underline text-sm text-black">
+                Delete
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <br>
+    <h2 id="notes" class="mt-6 text-2xl">Notes</h2>
+    <div class="flex justify-center mt-8 mb-8 space-x-4">
+        <a href="{% url 'project:add_note' project.id %}" class="py-4 px-8 bg-green-900 text-white rounded-xl">Add Note</a>
+    </div>
+    <div class="mt-6 grid grid-cols-4 gap-4">
+        {% for project_note in project.notes.all %}
+        <a href="{% url 'project:detail_note' project.id project_note.id %}">
+            <div class="outline outline-green-800 py-6 px-6">
+                <h3 class="mb-4 text-xl">{{ project_note.name }}</h3>
+                <p class="text-sm text-black">
+                    {{ project_note.body|truncatechars:50 }}
+                </p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+
+{% endblock %}
